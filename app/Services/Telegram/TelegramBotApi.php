@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Services\Telegram;
+
+use App\Exceptions\TelegramException;
+use Illuminate\Support\Facades\Http;
+
+class TelegramBotApi
+{
+    public const HOST = 'https://api.telegram.org/bot';
+    
+    public static function sendMessage(string $token, int $chatId, string $text): bool
+    {
+        try {
+            $response = Http::post(self::HOST . $token . '/sendMessage', [
+                'chat_id' => $chatId,
+                'text' => $text,
+            ]);
+    
+            $responseJsonBool = (bool)response()->json($response);
+
+            return $responseJsonBool;
+
+        } catch (TelegramException $e) {
+            
+            $exception = throw new TelegramException();
+
+            $exception->report($e);
+
+            return false;
+
+        }
+       
+
+    }
+}

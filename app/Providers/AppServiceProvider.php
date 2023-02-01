@@ -22,31 +22,49 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+
+    public function boot(): void
     {
-        Model::preventLazyLoading(!app()->isProduction());
-        Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
+        Model::shouldBeStrict(!app()->isProduction());
 
-        DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
-            logger()
-                ->channel('telegram')
-                ->debug('whenQueryingForLongerThan:' . $connection->query()->toSql());
-        });
+       //логгинг только в продакшене
+       
+        if (app()->isProduction()){
+            // DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), 
+            //     function (Connection $connection) {
+            //     logger()
+            //         ->channel('telegram')
+            //         ->debug('whenQueryingForLongerThan:' . $connection->totalQueryDuration());
+            // });
 
-        $kernel = app(Kernel::class);
+            DB::listen(function ($query){
 
-        $kernel->whenRequestLifecycleIsLongerThan(
-            CarbonInterval::seconds(4),
-            function() {
-                logger()
-                ->channel('telegram')
-                ->debug('whenRequestLifecycleIsLongerThan:' . request()->url());
-            }
-        );
+                // $query->sql;
+                // $query->bindings;
+                // $query->time;
+
+                if($query->time > 100){
+
+                    logger()
+                    ->channel('telegram')
+                    ->debug('Запрос в бд больше 1 мс:' . $query->sql, $query->bindings);
+                }
+
+
+            });
+
+            $kernel = app(Kernel::class);
+
+            $kernel->whenRequestLifecycleIsLongerThan(
+                CarbonInterval::seconds(4),
+                function() {
+                    logger()
+                    ->channel('telegram')
+                    ->debug('whenRequestLifecycleIsLongerThan:' . request()->url());
+                }
+            );
+       };
+       
+
     }
 }

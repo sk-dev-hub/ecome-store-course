@@ -43,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
                 // $query->bindings;
                 // $query->time;
 
+                
                 if($query->time > 100){
 
                     logger()

@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -159,6 +160,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        App\Providers\DomainServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -181,6 +183,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -190,13 +193,15 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
 
-        App\Providers\Images\ImageProvider::class,
+        App\Providers\TestingServiceProvider::class,  //custom image provider for faker
+
+        App\Providers\ViewServiceProvider::class,
+        
+
 
 
     ],

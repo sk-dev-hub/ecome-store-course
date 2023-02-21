@@ -1,18 +1,13 @@
 <?php
 
-use App\Logging\Telegram\Exceptions\TelegramBotApiException;
-use App\Models\Product;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
-    
-    Product::query()
-        ->select(['id', 'title', 'brand_id'])
-        ->with(['categories', 'brand'])
-        ->where('id', 1)
-        ->get();
 
-    return view('welcome');
-});
+
+
+
+

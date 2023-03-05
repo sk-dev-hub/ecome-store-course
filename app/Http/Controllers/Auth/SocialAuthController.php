@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use DomainException;
-use Domains\Auth\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
@@ -35,13 +35,22 @@ class SocialAuthController extends Controller
         $githubUser = Socialite::driver($driver)->user();
  
         $user = User::query()->updateOrCreate([
-            $driver . '_id' => $githubUser->id,
+            $driver . '_id' => $githubUser->getId(),
         ], [
-            'name' => $githubUser->name ?? $githubUser->id,
-            'email' => $githubUser->email,
+            'name' => $githubUser->getName(),
+            'email' => $githubUser->getEmail(),
             'password' => bcrypt(str()->random(20))
 
         ]);
+        
+        // $user = User::query()->updateOrCreate([
+        //     $driver . '_id' => $githubUser->id,
+        // ], [
+        //     'name' => $githubUser->name ?? $githubUser->id,
+        //     'email' => $githubUser->email,
+        //     'password' => bcrypt(str()->random(20))
+
+        // ]);
      
         auth()->login($user);
      

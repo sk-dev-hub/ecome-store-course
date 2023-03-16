@@ -200,6 +200,8 @@ return [
         App\Providers\TestingServiceProvider::class,  //custom image provider for faker
 
         App\Providers\ViewServiceProvider::class,
+        App\Providers\CatalogServiceProvider::class,
+        
         
 
 

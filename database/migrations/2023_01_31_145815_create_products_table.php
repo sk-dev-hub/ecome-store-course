@@ -2,7 +2,7 @@
 
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
-use App\Models\Product;
+use Domain\Product\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

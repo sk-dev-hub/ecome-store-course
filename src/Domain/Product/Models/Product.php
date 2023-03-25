@@ -25,7 +25,8 @@ class Product extends Model
     use HasSlug;
     use HasThumbnail;
 
-    
+
+
     protected $casts = [
         'price' => PriceCast::class,
         'json_properties' => 'array'
